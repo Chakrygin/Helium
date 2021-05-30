@@ -162,13 +162,9 @@ namespace Helium
 
         private static T Mapper<T>(DbDataReader reader)
         {
-            if (reader.HasRows && reader.Read())
-            {
-                var result = reader.GetValue(0);
-                return (T) Convert.ChangeType(result, typeof(T));
-            }
-
-            return default!;
+            return reader.HasRows && reader.Read() && !reader.IsDBNull(0)
+                ? reader.GetFieldValue<T>(0)
+                : default!;
         }
     }
 }
