@@ -18,7 +18,19 @@ namespace Helium
         public int Execute() =>
             _client.Execute(_command);
 
-        public Task<int> ExecuteAsync(CancellationToken cancellationToken = default) =>
+        public Task<int> ExecuteAsync() =>
+            _client.ExecuteAsync(_command, CancellationToken.None);
+
+        public Task<int> ExecuteAsync(CancellationToken cancellationToken) =>
             _client.ExecuteAsync(_command, cancellationToken);
+
+        public T Execute<T>() =>
+            _client.Execute<T>(_command);
+
+        public Task<T> ExecuteAsync<T>() =>
+            _client.ExecuteAsync<T>(_command, CancellationToken.None);
+
+        public Task<T> ExecuteAsync<T>(CancellationToken cancellationToken) =>
+            _client.ExecuteAsync<T>(_command, cancellationToken);
     }
 }
