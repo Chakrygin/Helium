@@ -4,6 +4,9 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Helium.Mapping;
+using Helium.Provider;
+
 namespace Helium
 {
     public class DbClient
@@ -11,10 +14,15 @@ namespace Helium
         private readonly DbProviderFactory _providerFactory;
         private readonly string _connectionString;
 
+        private readonly DbMapperFactory _mapperFactory;
+
         public DbClient(DbProviderFactory providerFactory, string connectionString)
         {
             _providerFactory = providerFactory;
             _connectionString = connectionString;
+
+            var dataReaderType = _providerFactory.GetDataReaderTypeDescriptor();
+            _mapperFactory = new DbMapperFactory(dataReaderType);
         }
 
         public DbClientCommand Query(string query)
@@ -93,22 +101,24 @@ namespace Helium
 
         internal T Execute<T>(DbCommand command)
         {
+            var mapper = _mapperFactory.GetMapper<T>();
+
             return command.Connection != null
-                ? ExecuteWithConnection(command, Mapper<T>)
-                : ExecuteWithoutConnection(command, Mapper<T>);
+                ? ExecuteWithConnection(command, mapper)
+                : ExecuteWithoutConnection(command, mapper);
         }
 
-        private T ExecuteWithConnection<T>(DbCommand command, Func<DbDataReader, T> mapper)
+        private T ExecuteWithConnection<T>(DbCommand command, DbMapper<T> mapper)
         {
             if (command.Connection.State != ConnectionState.Open)
                 command.Connection.Open();
 
-            using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader(mapper.CommandBehavior);
 
-            return mapper(reader);
+            return mapper.Map(reader);
         }
 
-        private T ExecuteWithoutConnection<T>(DbCommand command, Func<DbDataReader, T> mapper)
+        private T ExecuteWithoutConnection<T>(DbCommand command, DbMapper<T> mapper)
         {
             using var connection = CreateConnection();
 
@@ -116,29 +126,31 @@ namespace Helium
 
             connection.Open();
 
-            using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader(mapper.CommandBehavior);
 
-            return mapper(reader);
+            return mapper.Map(reader);
         }
 
         internal Task<T> ExecuteAsync<T>(DbCommand command, CancellationToken cancellationToken)
         {
+            var mapper = _mapperFactory.GetMapper<T>();
+
             return command.Connection != null
-                ? ExecuteWithConnectionAsync(command, Mapper<T>, cancellationToken)
-                : ExecuteWithoutConnectionAsync(command, Mapper<T>, cancellationToken);
+                ? ExecuteWithConnectionAsync(command, mapper, cancellationToken)
+                : ExecuteWithoutConnectionAsync(command, mapper, cancellationToken);
         }
 
-        private async Task<T> ExecuteWithConnectionAsync<T>(DbCommand command, Func<DbDataReader, T> mapper, CancellationToken cancellationToken)
+        private async Task<T> ExecuteWithConnectionAsync<T>(DbCommand command, DbMapper<T> mapper, CancellationToken cancellationToken)
         {
             if (command.Connection.State != ConnectionState.Open)
                 await command.Connection.OpenAsync(cancellationToken);
 
-            using var reader = await command.ExecuteReaderAsync(cancellationToken);
+            using var reader = await command.ExecuteReaderAsync(mapper.CommandBehavior, cancellationToken);
 
-            return mapper(reader);
+            return mapper.Map(reader);
         }
 
-        private async Task<T> ExecuteWithoutConnectionAsync<T>(DbCommand command, Func<DbDataReader, T> mapper, CancellationToken cancellationToken)
+        private async Task<T> ExecuteWithoutConnectionAsync<T>(DbCommand command, DbMapper<T> mapper, CancellationToken cancellationToken)
         {
             using var connection = CreateConnection();
 
@@ -146,9 +158,9 @@ namespace Helium
 
             await connection.OpenAsync(cancellationToken);
 
-            using var reader = await command.ExecuteReaderAsync(cancellationToken);
+            using var reader = await command.ExecuteReaderAsync(mapper.CommandBehavior, cancellationToken);
 
-            return mapper(reader);
+            return mapper.Map(reader);
         }
 
         private DbConnection CreateConnection()
@@ -158,13 +170,6 @@ namespace Helium
             connection.ConnectionString = _connectionString;
 
             return connection;
-        }
-
-        private static T Mapper<T>(DbDataReader reader)
-        {
-            return reader.HasRows && reader.Read() && !reader.IsDBNull(0)
-                ? reader.GetFieldValue<T>(0)
-                : default!;
         }
     }
 }
