@@ -27,6 +27,11 @@ namespace Helium.Mapping
                 return CreateDynamicMapper(type);
             }
 
+            if (type.IsTupleType())
+            {
+                return CreateTupleMapper(type);
+            }
+
             return CreateScalarMapper(type);
         }
 
@@ -34,6 +39,14 @@ namespace Helium.Mapping
         {
             var returnType = new DbDynamicTypeDescriptor(dynamicType);
             var builder = new DbDynamicTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateTupleMapper(Type tupleType)
+        {
+            var returnType = new DbTupleTypeDescriptor(tupleType);
+            var builder = new DbTupleTypeMapperBuilder(DataReaderType, returnType);
 
             return builder.CreateMapper();
         }

@@ -17,7 +17,7 @@ namespace Helium.Provider
             base(dataReaderType)
         {
             HasRowsProperty = Type.GetProperty(nameof(DbDataReader.HasRows))!;
-            // FieldCountProperty = Type.GetProperty(nameof(DbDataReader.FieldCount));
+            FieldCountProperty = Type.GetProperty(nameof(DbDataReader.FieldCount))!;
             ReadMethod = Type.GetMethod(nameof(DbDataReader.Read))!;
             NextResultMethod = Type.GetMethod(nameof(DbDataReader.NextResult))!;
             IsDBNullMethod = Type.GetMethod(nameof(DbDataReader.IsDBNull), new[] {typeof(int)})!;
@@ -29,6 +29,8 @@ namespace Helium.Provider
         }
 
         public PropertyInfo HasRowsProperty { get; }
+
+        public PropertyInfo FieldCountProperty { get; }
 
         public MethodInfo ReadMethod { get; }
 
