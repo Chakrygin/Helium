@@ -24,6 +24,8 @@ namespace Helium
         public Task<int> ExecuteAsync(CancellationToken cancellationToken) =>
             _client.ExecuteAsync(_command, cancellationToken);
 
+#nullable disable
+
         public T Execute<T>() =>
             _client.Execute<T>(_command);
 
@@ -32,5 +34,7 @@ namespace Helium
 
         public Task<T> ExecuteAsync<T>(CancellationToken cancellationToken) =>
             _client.ExecuteAsync<T>(_command, cancellationToken);
+
+#nullable restore
     }
 }

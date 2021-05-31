@@ -4,6 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
+using Bogus;
+
 using Microsoft.Data.SqlClient;
 
 namespace Helium.SqlServer.Helpers
@@ -30,43 +32,59 @@ namespace Helium.SqlServer.Helpers
 
         public void Create(params string[] columns)
         {
-            var query = $@"
+            Execute($@"
                 create table [dbo].[{Name}]
                 (
                     {String.Join(", ", columns)}
-                )";
-
-            using var connection = new SqlConnection(ConnectionString);
-            using var command = new SqlCommand(query, connection);
-
-            connection.Open();
-            command.ExecuteNonQuery();
+                )");
 
             IsCreated = true;
         }
 
         public void Drop()
         {
-            var query = $@"
+            Execute($@"
                 if object_id('[dbo].[{Name}]', 'U') is not null
                 begin
                     drop table [dbo].[{Name}];
-                end";
+                end");
 
+            IsDropped = true;
+        }
+
+        private void Execute(string query)
+        {
             using var connection = new SqlConnection(ConnectionString);
             using var command = new SqlCommand(query, connection);
 
             connection.Open();
-            command.ExecuteNonQuery();
 
-            IsDropped = true;
+            command.ExecuteNonQuery();
+        }
+
+        public void Fill(Func<Faker, TRow> func)
+        {
+            var faker = new Faker();
+            var row = func(faker);
+
+            Fill(row);
         }
 
         public void Fill(int count, Func<int, TRow> func)
         {
             var rows =
-                from n in Enumerable.Range(1, count)
-                select func(n);
+                from id in Enumerable.Range(1, count)
+                select func(id);
+
+            Fill(rows);
+        }
+
+        public void Fill(int count, Func<int, Faker, TRow> func)
+        {
+            var faker = new Faker();
+            var rows =
+                from id in Enumerable.Range(1, count)
+                select func(id, faker);
 
             Fill(rows);
         }
