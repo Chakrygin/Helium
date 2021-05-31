@@ -22,7 +22,20 @@ namespace Helium.Mapping
 
         protected override object CreateMapper(Type type)
         {
+            if (type.IsDynamicType())
+            {
+                return CreateDynamicMapper(type);
+            }
+
             return CreateScalarMapper(type);
+        }
+
+        private object CreateDynamicMapper(Type dynamicType)
+        {
+            var returnType = new DbDynamicTypeDescriptor(dynamicType);
+            var builder = new DbDynamicTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
         }
 
         private object CreateScalarMapper(Type scalarType)

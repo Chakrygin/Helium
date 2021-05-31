@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 
 using Helium.Common.Emitters;
 using Helium.Common.Emitters.Extensions;
@@ -9,9 +9,9 @@ using Helium.Provider;
 
 namespace Helium.Mapping.Builders
 {
-    internal sealed class DbScalarTypeMapperBuilder : DbMapperBuilderBase<DbScalarTypeDescriptor>
+    internal sealed class DbDynamicTypeMapperBuilder : DbMapperBuilderBase<DbDynamicTypeDescriptor>
     {
-        public DbScalarTypeMapperBuilder(DbDataReaderTypeDescriptor dataReaderType, DbScalarTypeDescriptor returnType) :
+        public DbDynamicTypeMapperBuilder(DbDataReaderTypeDescriptor dataReaderType, DbDynamicTypeDescriptor returnType) :
             base(dataReaderType, returnType)
         { }
 
@@ -31,15 +31,9 @@ namespace Helium.Mapping.Builders
                 // if (reader.Read())
                 emitter.EmitIfRead(() =>
                 {
-                    const int ordinal = 0;
-
-                    // if (!reader.IsDBNull(0))
-                    emitter.EmitIfHasValue(ordinal, () =>
-                    {
-                        // return (T) reader.GetValue(0);
-                        emitter.EmitReadScalar(ReturnType, ordinal);
-                        emitter.EmitReturn();
-                    });
+                    // return new dynamic { ... };
+                    emitter.EmitReadDynamic();
+                    emitter.EmitReturn();
                 });
             });
 
