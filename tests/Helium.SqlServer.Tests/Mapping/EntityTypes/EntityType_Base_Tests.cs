@@ -43,9 +43,9 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
 
         protected sealed class TestRow
         {
-            public int Id { get; set; }
-            public string Name { get; set; } = "";
-            public DateTime Date { get; set; }
+            public int Id { get; init; }
+            public string Name { get; init; } = "";
+            public DateTime Date { get; init; }
         }
     }
 }
