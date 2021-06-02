@@ -37,6 +37,74 @@ namespace Helium.Mapping
                 return CreateScalarMapper(type);
             }
 
+            if (type.IsGenericDictionaryType(out var keyType, out var valueType))
+            {
+                if (!keyType.IsScalarType(DataReaderType))
+                {
+                    throw new InvalidOperationException("Mapping for generic dictionary types is supported only for dictionaries with scalar key type.");
+                }
+
+                if (valueType.IsDynamicType())
+                {
+                    throw new NotImplementedException();
+                    // return CreateDictionaryOfDynamicMapper(type, keyType, valueType);
+                }
+
+                if (valueType.IsTupleType())
+                {
+                    throw new NotImplementedException();
+                    // return CreateDictionaryOfTupleMapper(type, keyType, valueType);
+                }
+
+                if (valueType.IsScalarType(DataReaderType))
+                {
+                    throw new NotImplementedException();
+                    // return CreateDictionaryOfScalarMapper(type, keyType, valueType);
+                }
+
+                throw new NotImplementedException();
+                // return CreateDictionaryOfEntityMapper(type, keyType, valueType);
+            }
+
+            if (type.IsDictionaryType())
+            {
+                throw new InvalidOperationException("Mapping for non-generic dictionary types is not supported.");
+            }
+
+            if (type.IsGenericCollectionType(out var itemType))
+            {
+                if (itemType.IsDynamicType())
+                {
+                    throw new NotImplementedException();
+                    // return CreateCollectionOfDynamicMapper(type, itemType);
+                }
+
+                if (itemType.IsTupleType())
+                {
+                    throw new NotImplementedException();
+                    // return CreateCollectionOfTupleMapper(type, itemType);
+                }
+
+                if (itemType.IsScalarType(DataReaderType))
+                {
+                    throw new NotImplementedException();
+                    // return CreateCollectionOfScalarMapper(type, itemType);
+                }
+
+                throw new NotImplementedException();
+                // return CreateCollectionOfEntityMapper(type, itemType);
+            }
+
+            if (type.IsCollectionType())
+            {
+                throw new InvalidOperationException("Mapping for non-generic collection types is not supported.");
+            }
+
+            if (type.IsEnumerableType())
+            {
+                throw new InvalidOperationException("Mapping for enumerable types is not supported.");
+            }
+
             return CreateEntityMapper(type);
         }
 
