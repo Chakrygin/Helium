@@ -19,7 +19,7 @@ namespace Helium.SqlServer.Tests.Mapping.DynamicTypes
             object result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<dynamic>();
 
             var expected = new Dictionary<string, object>
@@ -39,7 +39,7 @@ namespace Helium.SqlServer.Tests.Mapping.DynamicTypes
                 .Query($@"
                     select [Id], [Name]
                     from [dbo].[{Table.Name}]
-                    where [Id] < 0;")
+                    where [Id] < 0")
                 .ExecuteAsync<dynamic>();
 
             result.Print();

@@ -18,7 +18,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<(int, string)>();
 
             var expected = (Table.Row.Id, Table.Row.Name);
@@ -33,7 +33,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<(int, string)?>();
 
             var expected = (Table.Row.Id, Table.Row.Name);
@@ -49,7 +49,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
                 .Query($@"
                     select [Id], [Name]
                     from [dbo].[{Table.Name}]
-                    where [Id] < 0;")
+                    where [Id] < 0")
                 .ExecuteAsync<(int, string)>();
 
             var expected = (default(int), default(string)!);
@@ -65,7 +65,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
                 .Query($@"
                     select [Id], [Name]
                     from [dbo].[{Table.Name}]
-                    where [Id] < 0;")
+                    where [Id] < 0")
                 .ExecuteAsync<(int, string)?>();
 
             result.Print();
@@ -78,7 +78,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
             var result = await Database
                 .Query($@"
                     select [Id]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<(int, string)>();
 
             var expected = (Table.Row.Id, default(string)!);
@@ -93,7 +93,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
             var result = await Database
                 .Query($@"
                     select [Id]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<(int, string)?>();
 
             var expected = (Table.Row.Id, default(string));
@@ -108,7 +108,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name], [Date]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<(int, string)>();
 
             var expected = (Table.Row.Id, Table.Row.Name);
@@ -123,7 +123,7 @@ namespace Helium.SqlServer.Tests.Mapping.TupleTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name], [Date]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<(int, string)?>();
 
             var expected = (Table.Row.Id, Table.Row.Name);

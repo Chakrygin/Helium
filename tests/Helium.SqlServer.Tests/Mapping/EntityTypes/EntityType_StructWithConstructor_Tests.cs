@@ -16,7 +16,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, Table.Row.Name);
@@ -31,7 +31,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor?>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, Table.Row.Name);
@@ -47,7 +47,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
                 .Query($@"
                     select [Id], [Name]
                     from [dbo].[{Table.Name}]
-                    where [Id] < 0;")
+                    where [Id] < 0")
                 .ExecuteAsync<TestStructWithConstructor>();
 
             var expected = default(TestStructWithConstructor);
@@ -63,7 +63,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
                 .Query($@"
                     select [Id], [Name]
                     from [dbo].[{Table.Name}]
-                    where [Id] < 0;")
+                    where [Id] < 0")
                 .ExecuteAsync<TestStructWithConstructor?>();
 
             result.Print();
@@ -76,7 +76,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, default!);
@@ -91,7 +91,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor?>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, default!);
@@ -106,7 +106,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor>();
 
             var expected = new TestStructWithConstructor(default, Table.Row.Name);
@@ -121,7 +121,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor?>();
 
             var expected = new TestStructWithConstructor(default, Table.Row.Name);
@@ -136,7 +136,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Date], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, Table.Row.Name);
@@ -151,7 +151,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Date], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor?>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, Table.Row.Name);
@@ -166,7 +166,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Name], [Id]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, Table.Row.Name);
@@ -181,7 +181,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Name], [Id]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithConstructor?>();
 
             var expected = new TestStructWithConstructor(Table.Row.Id, Table.Row.Name);
@@ -209,7 +209,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithOnlyFirstColumnConstructor>();
 
             var expected = new TestStructWithOnlyFirstColumnConstructor(Table.Row.Id)
@@ -227,7 +227,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithOnlyFirstColumnConstructor?>();
 
             var expected = new TestStructWithOnlyFirstColumnConstructor(Table.Row.Id)
@@ -248,7 +248,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             }
 
             public int Id { get; }
-            public string Name { get; init; }
+            public string Name { get; set; }
         }
 
         [TestMethod]
@@ -257,7 +257,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithOnlySecondColumnConstructor>();
 
             var expected = new TestStructWithOnlySecondColumnConstructor(Table.Row.Name)
@@ -275,7 +275,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
             var result = await Database
                 .Query($@"
                     select [Id], [Name]
-                    from [dbo].[{Table.Name}];")
+                    from [dbo].[{Table.Name}]")
                 .ExecuteAsync<TestStructWithOnlySecondColumnConstructor?>();
 
             var expected = new TestStructWithOnlySecondColumnConstructor(Table.Row.Name)
@@ -295,7 +295,7 @@ namespace Helium.SqlServer.Tests.Mapping.EntityTypes
                 Name = name;
             }
 
-            public int Id { get; init; }
+            public int Id { get; set; }
             public string Name { get; }
         }
     }
