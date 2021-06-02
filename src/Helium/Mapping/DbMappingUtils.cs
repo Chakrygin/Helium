@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Dynamic;
@@ -21,6 +22,31 @@ namespace Helium.Mapping
                 var value = reader.GetValue(ordinal);
 
                 result.Add(name, value);
+            }
+
+            return result;
+        }
+
+        public static MethodInfo GetOrdinalsMethod { get; } =
+            typeof(DbMappingUtils).GetMethod(nameof(GetOrdinals))!;
+
+        public static int[] GetOrdinals(DbDataReader reader, Dictionary<string, int> ordinalIndices)
+        {
+            var result = new int[ordinalIndices.Count];
+
+            for (var index = 0; index < result.Length; index++)
+            {
+                result[index] = -1;
+            }
+
+            var fieldCount = reader.FieldCount;
+            for (var ordinal = 0; ordinal < fieldCount; ordinal++)
+            {
+                var name = reader.GetName(ordinal);
+                if (ordinalIndices.TryGetValue(name, out var ordinalIndex))
+                {
+                    result[ordinalIndex] = ordinal;
+                }
             }
 
             return result;

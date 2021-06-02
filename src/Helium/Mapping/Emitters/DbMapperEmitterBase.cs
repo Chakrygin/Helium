@@ -37,5 +37,7 @@ namespace Helium.Mapping.Emitters
 
             IL.Emit(OpCodes.Ldloc, _dataReaderLocal);
         }
+
+        public abstract void EmitLoadOrdinals();
     }
 }

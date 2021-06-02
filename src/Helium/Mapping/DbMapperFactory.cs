@@ -32,7 +32,12 @@ namespace Helium.Mapping
                 return CreateTupleMapper(type);
             }
 
-            return CreateScalarMapper(type);
+            if (type.IsScalarType(DataReaderType))
+            {
+                return CreateScalarMapper(type);
+            }
+
+            return CreateEntityMapper(type);
         }
 
         private object CreateDynamicMapper(Type dynamicType)
@@ -55,6 +60,14 @@ namespace Helium.Mapping
         {
             var returnType = new DbScalarTypeDescriptor(scalarType);
             var builder = new DbScalarTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateEntityMapper(Type entityType)
+        {
+            var returnType = new DbEntityTypeDescriptor(entityType);
+            var builder = new DbEntityTypeMapperBuilder(DataReaderType, returnType);
 
             return builder.CreateMapper();
         }

@@ -38,6 +38,11 @@ namespace Helium.Provider
 
         public MethodInfo IsDBNullMethod { get; }
 
+        public bool IsNativeType(Type type)
+        {
+            return _getNativeValueMethods.ContainsKey(type);
+        }
+
         public MethodInfo? GetNativeValueMethod(Type type)
         {
             _getNativeValueMethods.TryGetValue(type, out var method);

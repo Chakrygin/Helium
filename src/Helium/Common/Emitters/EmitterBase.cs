@@ -16,5 +16,10 @@ namespace Helium.Common.Emitters
         public EmitterState State { get; }
 
         public EmitterLocals Locals { get; }
+
+        public void EmitLoadState(object value)
+        {
+            State.EmitLoad(IL, value);
+        }
     }
 }
