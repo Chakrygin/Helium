@@ -46,24 +46,20 @@ namespace Helium.Mapping
 
                 if (valueType.IsDynamicType())
                 {
-                    throw new NotImplementedException();
-                    // return CreateDictionaryOfDynamicMapper(type, keyType, valueType);
+                    return CreateDictionaryOfDynamicMapper(type, keyType, valueType);
                 }
 
                 if (valueType.IsTupleType())
                 {
-                    throw new NotImplementedException();
-                    // return CreateDictionaryOfTupleMapper(type, keyType, valueType);
+                    return CreateDictionaryOfTupleMapper(type, keyType, valueType);
                 }
 
                 if (valueType.IsScalarType(DataReaderType))
                 {
-                    throw new NotImplementedException();
-                    // return CreateDictionaryOfScalarMapper(type, keyType, valueType);
+                    return CreateDictionaryOfScalarMapper(type, keyType, valueType);
                 }
 
-                throw new NotImplementedException();
-                // return CreateDictionaryOfEntityMapper(type, keyType, valueType);
+                return CreateDictionaryOfEntityMapper(type, keyType, valueType);
             }
 
             if (type.IsDictionaryType())
@@ -75,24 +71,20 @@ namespace Helium.Mapping
             {
                 if (itemType.IsDynamicType())
                 {
-                    throw new NotImplementedException();
-                    // return CreateCollectionOfDynamicMapper(type, itemType);
+                    return CreateCollectionOfDynamicMapper(type, itemType);
                 }
 
                 if (itemType.IsTupleType())
                 {
-                    throw new NotImplementedException();
-                    // return CreateCollectionOfTupleMapper(type, itemType);
+                    return CreateCollectionOfTupleMapper(type, itemType);
                 }
 
                 if (itemType.IsScalarType(DataReaderType))
                 {
-                    throw new NotImplementedException();
-                    // return CreateCollectionOfScalarMapper(type, itemType);
+                    return CreateCollectionOfScalarMapper(type, itemType);
                 }
 
-                throw new NotImplementedException();
-                // return CreateCollectionOfEntityMapper(type, itemType);
+                return CreateCollectionOfEntityMapper(type, itemType);
             }
 
             if (type.IsCollectionType())
@@ -136,6 +128,70 @@ namespace Helium.Mapping
         {
             var returnType = new DbEntityTypeDescriptor(entityType);
             var builder = new DbEntityTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateCollectionOfDynamicMapper(Type collectionType, Type itemType)
+        {
+            var returnType = new DbCollectionOfDynamicTypeDescriptor(collectionType, itemType);
+            var builder = new DbCollectionOfDynamicTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateCollectionOfTupleMapper(Type collectionType, Type itemType)
+        {
+            var returnType = new DbCollectionOfTupleTypeDescriptor(collectionType, itemType);
+            var builder = new DbCollectionOfTupleTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateCollectionOfScalarMapper(Type collectionType, Type itemType)
+        {
+            var returnType = new DbCollectionOfScalarTypeDescriptor(collectionType, itemType);
+            var builder = new DbCollectionOfScalarTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateCollectionOfEntityMapper(Type collectionType, Type itemType)
+        {
+            var returnType = new DbCollectionOfEntityTypeDescriptor(collectionType, itemType);
+            var builder = new DbCollectionOfEntityTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateDictionaryOfDynamicMapper(Type dictionaryType, Type keyType, Type valueType)
+        {
+            var returnType = new DbDictionaryOfDynamicTypeDescriptor(dictionaryType, keyType, valueType);
+            var builder = new DbDictionaryOfDynamicTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateDictionaryOfTupleMapper(Type dictionaryType, Type keyType, Type valueType)
+        {
+            var returnType = new DbDictionaryOfTupleTypeDescriptor(dictionaryType, keyType, valueType);
+            var builder = new DbDictionaryOfTupleTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateDictionaryOfScalarMapper(Type dictionaryType, Type keyType, Type valueType)
+        {
+            var returnType = new DbDictionaryOfScalarTypeDescriptor(dictionaryType, keyType, valueType);
+            var builder = new DbDictionaryOfScalarTypeMapperBuilder(DataReaderType, returnType);
+
+            return builder.CreateMapper();
+        }
+
+        private object CreateDictionaryOfEntityMapper(Type dictionaryType, Type keyType, Type valueType)
+        {
+            var returnType = new DbDictionaryOfEntityTypeDescriptor(dictionaryType, keyType, valueType);
+            var builder = new DbDictionaryOfEntityTypeMapperBuilder(DataReaderType, returnType);
 
             return builder.CreateMapper();
         }

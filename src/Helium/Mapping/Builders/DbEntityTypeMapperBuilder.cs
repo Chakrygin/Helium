@@ -17,8 +17,9 @@ namespace Helium.Mapping.Builders
 
         protected override void Init(EmitterState state)
         {
-            state.Add(ReturnType.OrdinalIndices);
             CommandBehavior = CommandBehavior.SingleResult | CommandBehavior.SingleRow;
+
+            state.Add(ReturnType.OrdinalIndices);
         }
 
         protected override void Emit(DbMapperEmitter emitter)
