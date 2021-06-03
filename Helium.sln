@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helium.SqlServer.Tests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helium.DependencyInjection", "src\Helium.DependencyInjection\Helium.DependencyInjection.csproj", "{306770F8-1E45-4695-A690-5BFF4C743835}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helium.SqlServer.Benchmarks", "tests\Helium.SqlServer.Benchmarks\Helium.SqlServer.Benchmarks.csproj", "{25DD5844-09AF-4BAF-8387-745791CFB3C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,7 @@ Global
 		{2E7A0E73-4A48-4A6A-A59C-1AF5F0F601D5} = {54BBB82E-77D1-43F7-A9C5-06703C9D641F}
 		{3BC88684-B8CE-444C-83B9-6A8DE6472CB2} = {54BBB82E-77D1-43F7-A9C5-06703C9D641F}
 		{306770F8-1E45-4695-A690-5BFF4C743835} = {E0574DB0-F2F8-4A3E-8130-A6EFB1C1261C}
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6} = {54BBB82E-77D1-43F7-A9C5-06703C9D641F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D2770C6A-5525-4B91-9D1B-3992695D3AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -178,5 +181,17 @@ Global
 		{306770F8-1E45-4695-A690-5BFF4C743835}.Release|x64.Build.0 = Release|Any CPU
 		{306770F8-1E45-4695-A690-5BFF4C743835}.Release|x86.ActiveCfg = Release|Any CPU
 		{306770F8-1E45-4695-A690-5BFF4C743835}.Release|x86.Build.0 = Release|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Release|x64.Build.0 = Release|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{25DD5844-09AF-4BAF-8387-745791CFB3C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
