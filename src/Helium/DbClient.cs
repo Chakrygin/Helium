@@ -16,13 +16,26 @@ namespace Helium
 
         private readonly DbMapperFactory _mapperFactory;
 
-        public DbClient(DbProviderFactory providerFactory, string connectionString)
+        public DbClient(DbClientOptions options)
         {
-            _providerFactory = providerFactory;
-            _connectionString = connectionString;
+            _providerFactory = options.ProviderFactory;
+            _connectionString = options.ConnectionString;
 
             var dataReaderType = _providerFactory.GetDataReaderTypeDescriptor();
             _mapperFactory = new DbMapperFactory(dataReaderType);
+        }
+
+        public DbClient(DbProviderFactory providerFactory, string connectionString) :
+            this(CreateOptions(providerFactory, connectionString))
+        { }
+
+        private static DbClientOptions CreateOptions(DbProviderFactory providerFactory, string connectionString)
+        {
+            var builder = new DbClientOptionsBuilder()
+                .UseProviderFactory(providerFactory)
+                .UseConnectionString(connectionString);
+
+            return builder.Build();
         }
 
         public DbClientCommand Query(string query)
