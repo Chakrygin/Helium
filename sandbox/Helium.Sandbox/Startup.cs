@@ -1,4 +1,7 @@
+using System.Reflection;
+
 using Helium.DependencyInjection;
+using Helium.Sandbox.Migrations;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,22 +14,15 @@ namespace Helium.Sandbox
 {
     public sealed class Startup
     {
+        public const string ConnectionString =
+            @"Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=postgres";
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbClient("Postgres", options =>
             {
-                var csb = new NpgsqlConnectionStringBuilder
-                {
-                    Host = "127.0.0.1",
-                    Port = 5432,
-
-                    Database = "postgres",
-                    Username = "postgres",
-                    Password = "postgres",
-                };
-
                 options.UseProviderFactory(NpgsqlFactory.Instance);
-                options.UseConnectionString(csb.ToString());
+                options.UseConnectionString(ConnectionString);
             });
 
             services.AddSingleton<DbClient>(serviceProvider =>
@@ -43,6 +39,9 @@ namespace Helium.Sandbox
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var assembly = Assembly.Load(env.ApplicationName);
+            MigrationRunner.Migrate(ConnectionString, assembly);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

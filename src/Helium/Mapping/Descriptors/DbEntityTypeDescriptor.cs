@@ -27,7 +27,7 @@ namespace Helium.Mapping.Descriptors
 
             Parameters = new List<DbEntityParameterDescriptor>();
             Properties = new List<DbEntityPropertyDescriptor>();
-            OrdinalIndices = new Dictionary<string, int>();
+            OrdinalIndices = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
             InitEntityParameters(parameters, properties);
             InitEntityProperties(parameters, properties);
